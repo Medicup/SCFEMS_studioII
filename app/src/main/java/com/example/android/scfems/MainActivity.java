@@ -1,5 +1,6 @@
 package com.example.android.scfems;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +21,8 @@ import com.example.android.scfems.data.DbHelper;
 import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG = MainActivity.class.getSimpleName();
+
     //TODO correct access to sql db
     private DbHelper dbHelper;
 
@@ -62,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_insert_test) {
+            insertTestData();
+            displayIncidentsInfo();
             return true;
         }
 
@@ -80,5 +86,26 @@ public class MainActivity extends AppCompatActivity {
         }finally {
             cursor.close();
         }
+    }
+
+    private void insertTestData(){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(incidentEntry.COLUMN_INCIDENT_NUMBER,"12345");
+        contentValues.put(incidentEntry.COLUMN_DATE, "10/10/1910");
+        contentValues.put(incidentEntry.COLUMN_TIME, "10:10");
+        contentValues.put(incidentEntry.COLUMN_UNIT_ID, "C2");
+        contentValues.put(incidentEntry.COLUMN_GPS_LAT, "1234");
+        contentValues.put(incidentEntry.COLUMN_GPS_LONG, "5678");
+        contentValues.put(incidentEntry.COLUMN_RECEIVED_INC_TYPE, "Medical");
+        contentValues.put(incidentEntry.COLUMN_FOUND_INC_TYPE, "Trauma");
+        contentValues.put(incidentEntry.COLUMN_NOTES, "THIS IS A TEST");
+        contentValues.put(incidentEntry.COLUMN_STREET_NUMBER, "1115");
+        contentValues.put(incidentEntry.COLUMN_STREET_NAME, "Stoneham Dr");
+        contentValues.put(incidentEntry.COLUMN_STATE,"FL");
+
+        long newRowID = db.insert(incidentEntry.TABLE_NAME, null, contentValues);
+        Log.i(TAG, "New row ID = " + newRowID);
     }
 }

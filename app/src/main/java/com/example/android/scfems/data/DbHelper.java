@@ -43,10 +43,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 incidentEntry.COLUMN_GPS_LAT + TEXT + COMMA +
                 incidentEntry.COLUMN_STREET_NUMBER + INTEGER + COMMA +
                 incidentEntry.COLUMN_STREET_NAME + TEXT + COMMA +
+                incidentEntry.COLUMN_CITY + TEXT + COMMA +
                 incidentEntry.COLUMN_STATE + TEXT + COMMA +
-                incidentEntry.COLUMN_RECEIVED_INC_TYPE + TEXT +
-                incidentEntry.COLUMN_FOUND_INC_TYPE + TEXT +
-                incidentEntry.COLUMN_NOTES + TEXT +
+                incidentEntry.COLUMN_RECEIVED_INC_TYPE + TEXT + COMMA +
+                incidentEntry.COLUMN_FOUND_INC_TYPE + TEXT + COMMA +
+                incidentEntry.COLUMN_NOTES + TEXT + COMMA +
                 incidentEntry.COLUMN_STATUS + INTEGER + DEFAULT + 0 + " );";
 
         //Execute the sql statement

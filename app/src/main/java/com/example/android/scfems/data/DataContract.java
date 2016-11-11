@@ -57,6 +57,7 @@ public final class DataContract {
         public static final String COLUMN_GPS_LAT = "latitude";
         public static final String COLUMN_STREET_NUMBER = "streetNumber";
         public static final String COLUMN_STREET_NAME = "streetName";
+        public static final String COLUMN_CITY = "city";
         public static final String COLUMN_STATE = "state";
         public static final String COLUMN_RECEIVED_INC_TYPE = "incidentReceived";
         public static final String COLUMN_FOUND_INC_TYPE = "incidentFound";
