@@ -75,7 +75,30 @@ public final class DataContract {
     }
 
     public static class requestsEntry implements BaseColumns {
+        // URI for access
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_REQUESTS).build();
 
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + PATH_REQUESTS;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + PATH_REQUESTS;
+
+
+        public static final String TABLE_NAME = "requests";
+
+        public static final String _ID = BaseColumns._ID;
+        public static final String COLUMN_INCIDENT_NUMBER = "incidentID";
+        public static final String COLUMN_UNIT_ID = "unitID";
+        public static final String COLUMN_REQUEST_RESOURCE = "resource";
+        public static final String COLUMN_REQUEST_STATUS = "status";
+
+        public static final int STATUS_REQUESTED = 0;
+        public static final int STATUS_PENDING = 1;
+        public static final int STATUS_FILLED = 2;
+        public static final int STATUS_DENIED = 3;
     }
 
     public static class unitsEntry implements BaseColumns{

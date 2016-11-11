@@ -18,13 +18,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <provider
-            android:authorities="com.example.android.scfems"
-            android:name=".data.DataProvider"
-            android:exported="false"
-            android:multiprocess="true" >
 
-        </provider>
+        <provider
+            android:name=".data.DataProvider"
+            android:authorities="com.example.android.scfems"
+            android:exported="false"
+            android:multiprocess="true" />
+
+        <activity
+            android:name=".EditorActivity"
+            android:label="@string/title_activity_editor"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

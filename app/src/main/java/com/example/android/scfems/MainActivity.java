@@ -1,6 +1,7 @@
 package com.example.android.scfems;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -37,8 +38,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                startActivity(intent);
+//              TODO Consider Snackbar action
+//              Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
             }
         });
 
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + incidentEntry.TABLE_NAME, null);
         try {
-            TextView displayView = (TextView)findViewById(R.id.text_view_incidents);
+            TextView displayView = (TextView)findViewById(R.id.text_view_incident_sum);
             displayView.setText("Number of rows in incidents DB: " + cursor.getCount());
         }finally {
             cursor.close();
