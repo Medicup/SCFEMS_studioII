@@ -2,8 +2,10 @@ package com.example.android.scfems;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -70,10 +72,15 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_insert_test) {
-//            insertTestData();
-            displayIncidentsInfo();
-            return true;
+        switch (id){
+            case R.id.action_main_delete_all:
+                deleteAllData();
+                displayIncidentsInfo();
+                return true;
+            case R.id.action_insert_test:
+                insertTestData();
+                displayIncidentsInfo();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -91,7 +98,9 @@ public class MainActivity extends AppCompatActivity {
                 IncidentEntry.COLUMN_STREET_NAME
         };
 
+
         Cursor cursor = getContentResolver().query(IncidentEntry.CONTENT_URI,projection,null,null,null);
+
 
         TextView displayView = (TextView)findViewById(R.id.text_view_incident_sum);
 
@@ -124,28 +133,35 @@ public class MainActivity extends AppCompatActivity {
                     currentStreetName));
             }
         }finally {
-            cursor.close();
+            if (cursor != null) {
+                cursor.close();
+            }
         }
     }
 
-//    private void insertTestData(){
-//        SQLiteDatabase db = dbHelper.getWritableDatabase();
-//
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(IncidentEntry.COLUMN_INCIDENT_NUMBER,"12345");
-//        contentValues.put(IncidentEntry.COLUMN_DATE, "10/10/1910");
-//        contentValues.put(IncidentEntry.COLUMN_TIME, "10:10");
-//        contentValues.put(IncidentEntry.COLUMN_UNIT_ID, "C2");
-//        contentValues.put(IncidentEntry.COLUMN_GPS_LAT, "1234");
-//        contentValues.put(IncidentEntry.COLUMN_GPS_LONG, "5678");
-//        contentValues.put(IncidentEntry.COLUMN_RECEIVED_INC_TYPE, "Medical");
-//        contentValues.put(IncidentEntry.COLUMN_FOUND_INC_TYPE, "Trauma");
-//        contentValues.put(IncidentEntry.COLUMN_NOTES, "THIS IS A TEST");
-//        contentValues.put(IncidentEntry.COLUMN_STREET_NUMBER, "1115");
-//        contentValues.put(IncidentEntry.COLUMN_STREET_NAME, "Stoneham Dr");
-//        contentValues.put(IncidentEntry.COLUMN_STATE,"FL");
-//
-//        //long newRowID = db.insert(IncidentEntry.TABLE_NAME, null, contentValues);
-//        //Log.i(TAG, "New row ID = " + newRowID);
-//    }
+    private void insertTestData(){//TODO remove insertTestData
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(IncidentEntry.COLUMN_INCIDENT_NUMBER,"12345");
+        contentValues.put(IncidentEntry.COLUMN_DATE, "10/10/1910");
+        contentValues.put(IncidentEntry.COLUMN_TIME, "10:10");
+        contentValues.put(IncidentEntry.COLUMN_UNIT_ID, "C2");
+        contentValues.put(IncidentEntry.COLUMN_GPS_LAT, "1234");
+        contentValues.put(IncidentEntry.COLUMN_GPS_LONG, "5678");
+        contentValues.put(IncidentEntry.COLUMN_RECEIVED_INC_TYPE, "Medical");
+        contentValues.put(IncidentEntry.COLUMN_FOUND_INC_TYPE, "Trauma");
+        contentValues.put(IncidentEntry.COLUMN_NOTES, "THIS IS A TEST");
+        contentValues.put(IncidentEntry.COLUMN_STREET_NUMBER, "1115");
+        contentValues.put(IncidentEntry.COLUMN_STREET_NAME, "Stoneham Dr");
+        contentValues.put(IncidentEntry.COLUMN_STATE,"FL");
+
+        Uri newUri = getContentResolver().insert(IncidentEntry.CONTENT_URI, contentValues);
+    }
+
+    private void deleteAllData(){
+
+        int rowsDeleted = getContentResolver().delete(IncidentEntry.CONTENT_URI, null, null);
+        Log.v(TAG, rowsDeleted + " rows deleted from database");
+
+    }
 }

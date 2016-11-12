@@ -25,7 +25,7 @@ public final class DataContract {
     * Unique integers assigned for each UriMatch
     */
     public static final int URI_INCIDENTS = 100;
-//   private static final int INCIDENT_ID = 101;
+    public static final int URI_INCIDENT_ID = 101;
 
     /*
      * CONTENT_AUTHORITY represents the entire name for the content provider
@@ -54,7 +54,8 @@ public final class DataContract {
     /*
      * Global static error messages
      */
-    public static final String ERROR_ILLEGAL_ARG = "Cannot query unknown URI ";
+    public static final String ERR_ILLEGAL_ARG_QUERY = "Cannot query unknown URI ";
+    public static final String ERR_ILLEGAL_ARG_INSERT = "Insertion is not supported for ";
 
     // Inner class for incidents table
     public static class IncidentEntry implements BaseColumns {
