@@ -44,9 +44,9 @@ public class DbHelper extends SQLiteOpenHelper {
                 incidentEntry.TABLE_NAME + " (" +
                 incidentEntry._ID + ID_INTEGER + COMMA +
                 incidentEntry.COLUMN_INCIDENT_NUMBER + INTEGER + NOT_NULL + COMMA +
-                incidentEntry.COLUMN_DATE + TEXT + NOT_NULL + COMMA +
-                incidentEntry.COLUMN_TIME + TEXT + NOT_NULL + COMMA +
-                incidentEntry.COLUMN_UNIT_ID + TEXT + NOT_NULL + COMMA +
+                incidentEntry.COLUMN_DATE + TEXT + COMMA +
+                incidentEntry.COLUMN_TIME + TEXT + COMMA +
+                incidentEntry.COLUMN_UNIT_ID + TEXT + COMMA +
                 incidentEntry.COLUMN_GPS_LONG + TEXT + COMMA +
                 incidentEntry.COLUMN_GPS_LAT + TEXT + COMMA +
                 incidentEntry.COLUMN_STREET_NUMBER + INTEGER + COMMA +
