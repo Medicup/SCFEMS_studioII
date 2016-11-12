@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
 
+        <!-- Restrict provider to internal app only by setting exported to false -->
         <provider
             android:name=".data.DataProvider"
             android:authorities="com.example.android.scfems"
@@ -28,7 +29,9 @@
         <activity
             android:name=".EditorActivity"
             android:label="@string/title_activity_editor"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

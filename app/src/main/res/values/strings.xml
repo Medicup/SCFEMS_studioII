@@ -3,7 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_insert_test">TEST DATA</string>
     <string name="action_save_incident">Save</string>
-    
+
     <string name="title_activity_editor">Incident Entry</string>
 
     <string name="text_view_incident_number">Incident Number:</string>

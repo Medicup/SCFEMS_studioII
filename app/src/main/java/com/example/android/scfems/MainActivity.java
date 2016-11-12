@@ -40,13 +40,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
-//              TODO Consider Snackbar action
-//              Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
+              //TODO Consider Snackbar action
+              Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
 
-        dbHelper = new DbHelper(this);
+//        dbHelper = new DbHelper(this);
     }
 
     @Override //TODO CHECK THIS
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_insert_test) {
-            insertTestData();
+//            insertTestData();
             displayIncidentsInfo();
             return true;
         }
@@ -80,43 +80,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayIncidentsInfo(){
-        //TODO clean this up.
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
+        /*
+         * Identify columns to return on query
+         */
         String [] projection = {
-                incidentEntry._ID,
-                incidentEntry.COLUMN_INCIDENT_NUMBER,
-                incidentEntry.COLUMN_UNIT_ID,
-                incidentEntry.COLUMN_STREET_NUMBER,
-                incidentEntry.COLUMN_STREET_NAME
+                IncidentEntry._ID,
+                IncidentEntry.COLUMN_INCIDENT_NUMBER,
+                IncidentEntry.COLUMN_UNIT_ID,
+                IncidentEntry.COLUMN_STREET_NUMBER,
+                IncidentEntry.COLUMN_STREET_NAME
         };
 
-
-        Cursor cursor = db.query(
-                incidentEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null);
+        Cursor cursor = getContentResolver().query(IncidentEntry.CONTENT_URI,projection,null,null,null);
 
         TextView displayView = (TextView)findViewById(R.id.text_view_incident_sum);
 
         try{
 
             displayView.setText("Number of rows in incidents DB: " + cursor.getCount());
-            displayView.append("\n" + incidentEntry._ID + " - " +
-                incidentEntry.COLUMN_INCIDENT_NUMBER + " - " +
-                incidentEntry.COLUMN_UNIT_ID + " - " +
-                incidentEntry.COLUMN_STREET_NUMBER + " - " +
-                incidentEntry.COLUMN_STREET_NAME);
+            displayView.append("\n" + IncidentEntry._ID + " - " +
+                IncidentEntry.COLUMN_INCIDENT_NUMBER + " - " +
+                IncidentEntry.COLUMN_UNIT_ID + " - " +
+                IncidentEntry.COLUMN_STREET_NUMBER + " - " +
+                IncidentEntry.COLUMN_STREET_NAME);
 
-            int idColumnIndex = cursor.getColumnIndex(incidentEntry._ID);
-            int incidentNumberColumnIndex = cursor.getColumnIndex(incidentEntry.COLUMN_INCIDENT_NUMBER);
-            int unitColumnIndex = cursor.getColumnIndex(incidentEntry.COLUMN_UNIT_ID);
-            int streetNumberIndex = cursor.getColumnIndex(incidentEntry.COLUMN_STREET_NUMBER);
-            int streetNameIndex = cursor.getColumnIndex(incidentEntry.COLUMN_STREET_NAME);
+            int idColumnIndex = cursor.getColumnIndex(IncidentEntry._ID);
+            int incidentNumberColumnIndex = cursor.getColumnIndex(IncidentEntry.COLUMN_INCIDENT_NUMBER);
+            int unitColumnIndex = cursor.getColumnIndex(IncidentEntry.COLUMN_UNIT_ID);
+            int streetNumberIndex = cursor.getColumnIndex(IncidentEntry.COLUMN_STREET_NUMBER);
+            int streetNameIndex = cursor.getColumnIndex(IncidentEntry.COLUMN_STREET_NAME);
 
             while (cursor.moveToNext()){
                 int currentID = cursor.getInt(idColumnIndex);
@@ -136,24 +128,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void insertTestData(){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(incidentEntry.COLUMN_INCIDENT_NUMBER,"12345");
-        contentValues.put(incidentEntry.COLUMN_DATE, "10/10/1910");
-        contentValues.put(incidentEntry.COLUMN_TIME, "10:10");
-        contentValues.put(incidentEntry.COLUMN_UNIT_ID, "C2");
-        contentValues.put(incidentEntry.COLUMN_GPS_LAT, "1234");
-        contentValues.put(incidentEntry.COLUMN_GPS_LONG, "5678");
-        contentValues.put(incidentEntry.COLUMN_RECEIVED_INC_TYPE, "Medical");
-        contentValues.put(incidentEntry.COLUMN_FOUND_INC_TYPE, "Trauma");
-        contentValues.put(incidentEntry.COLUMN_NOTES, "THIS IS A TEST");
-        contentValues.put(incidentEntry.COLUMN_STREET_NUMBER, "1115");
-        contentValues.put(incidentEntry.COLUMN_STREET_NAME, "Stoneham Dr");
-        contentValues.put(incidentEntry.COLUMN_STATE,"FL");
-
-        long newRowID = db.insert(incidentEntry.TABLE_NAME, null, contentValues);
-        Log.i(TAG, "New row ID = " + newRowID);
-    }
+//    private void insertTestData(){
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(IncidentEntry.COLUMN_INCIDENT_NUMBER,"12345");
+//        contentValues.put(IncidentEntry.COLUMN_DATE, "10/10/1910");
+//        contentValues.put(IncidentEntry.COLUMN_TIME, "10:10");
+//        contentValues.put(IncidentEntry.COLUMN_UNIT_ID, "C2");
+//        contentValues.put(IncidentEntry.COLUMN_GPS_LAT, "1234");
+//        contentValues.put(IncidentEntry.COLUMN_GPS_LONG, "5678");
+//        contentValues.put(IncidentEntry.COLUMN_RECEIVED_INC_TYPE, "Medical");
+//        contentValues.put(IncidentEntry.COLUMN_FOUND_INC_TYPE, "Trauma");
+//        contentValues.put(IncidentEntry.COLUMN_NOTES, "THIS IS A TEST");
+//        contentValues.put(IncidentEntry.COLUMN_STREET_NUMBER, "1115");
+//        contentValues.put(IncidentEntry.COLUMN_STREET_NAME, "Stoneham Dr");
+//        contentValues.put(IncidentEntry.COLUMN_STATE,"FL");
+//
+//        //long newRowID = db.insert(IncidentEntry.TABLE_NAME, null, contentValues);
+//        //Log.i(TAG, "New row ID = " + newRowID);
+//    }
 }

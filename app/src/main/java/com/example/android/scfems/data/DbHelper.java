@@ -41,35 +41,35 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String SQL_CREATE_INCIDENTS_TABLE = "CREATE TABLE " +
-                incidentEntry.TABLE_NAME + " (" +
-                incidentEntry._ID + ID_INTEGER + COMMA +
-                incidentEntry.COLUMN_INCIDENT_NUMBER + INTEGER + NOT_NULL + COMMA +
-                incidentEntry.COLUMN_DATE + TEXT + COMMA +
-                incidentEntry.COLUMN_TIME + TEXT + COMMA +
-                incidentEntry.COLUMN_UNIT_ID + TEXT + COMMA +
-                incidentEntry.COLUMN_GPS_LONG + TEXT + COMMA +
-                incidentEntry.COLUMN_GPS_LAT + TEXT + COMMA +
-                incidentEntry.COLUMN_STREET_NUMBER + INTEGER + COMMA +
-                incidentEntry.COLUMN_STREET_NAME + TEXT + COMMA +
-                incidentEntry.COLUMN_CITY + TEXT + COMMA +
-                incidentEntry.COLUMN_STATE + TEXT + COMMA +
-                incidentEntry.COLUMN_RECEIVED_INC_TYPE + TEXT + COMMA +
-                incidentEntry.COLUMN_FOUND_INC_TYPE + TEXT + COMMA +
-                incidentEntry.COLUMN_NOTES + TEXT + COMMA +
-                incidentEntry.COLUMN_STATUS + INTEGER + DEFAULT + incidentEntry.STATUS_OPEN + " );";
+                IncidentEntry.TABLE_NAME + " (" +
+                IncidentEntry._ID + ID_INTEGER + COMMA +
+                IncidentEntry.COLUMN_INCIDENT_NUMBER + INTEGER + NOT_NULL + COMMA +
+                IncidentEntry.COLUMN_DATE + TEXT + COMMA +
+                IncidentEntry.COLUMN_TIME + TEXT + COMMA +
+                IncidentEntry.COLUMN_UNIT_ID + TEXT + COMMA +
+                IncidentEntry.COLUMN_GPS_LONG + TEXT + COMMA +
+                IncidentEntry.COLUMN_GPS_LAT + TEXT + COMMA +
+                IncidentEntry.COLUMN_STREET_NUMBER + INTEGER + COMMA +
+                IncidentEntry.COLUMN_STREET_NAME + TEXT + COMMA +
+                IncidentEntry.COLUMN_CITY + TEXT + COMMA +
+                IncidentEntry.COLUMN_STATE + TEXT + COMMA +
+                IncidentEntry.COLUMN_RECEIVED_INC_TYPE + TEXT + COMMA +
+                IncidentEntry.COLUMN_FOUND_INC_TYPE + TEXT + COMMA +
+                IncidentEntry.COLUMN_NOTES + TEXT + COMMA +
+                IncidentEntry.COLUMN_STATUS + INTEGER + DEFAULT + IncidentEntry.STATUS_OPEN + " );";
 
         String SQL_CREATE_REQUESTS_TABLE = "CREATE TABLE " +
-                requestsEntry.TABLE_NAME + " (" +
-                requestsEntry._ID + ID_INTEGER + COMMA +
-                requestsEntry.COLUMN_INCIDENT_NUMBER + INTEGER + NOT_NULL + COMMA +
-                requestsEntry.COLUMN_UNIT_ID + TEXT + NOT_NULL + COMMA +
-                requestsEntry.COLUMN_REQUEST_RESOURCE + TEXT + COMMA +
-                requestsEntry.COLUMN_REQUEST_STATUS + INTEGER + DEFAULT + requestsEntry.STATUS_REQUESTED + COMMA +
-                FOREIGN_KEY + " (" + requestsEntry.COLUMN_INCIDENT_NUMBER + ") " +
-                    REFERENCES + incidentEntry.TABLE_NAME +
-                    " (" + incidentEntry.COLUMN_INCIDENT_NUMBER + ") " + COMMA +
-                FOREIGN_KEY + " (" + requestsEntry.COLUMN_UNIT_ID + ") " +
-                    REFERENCES + incidentEntry.TABLE_NAME + " (" + incidentEntry.COLUMN_UNIT_ID + "));";
+                RequestsEntry.TABLE_NAME + " (" +
+                RequestsEntry._ID + ID_INTEGER + COMMA +
+                RequestsEntry.COLUMN_INCIDENT_NUMBER + INTEGER + NOT_NULL + COMMA +
+                RequestsEntry.COLUMN_UNIT_ID + TEXT + NOT_NULL + COMMA +
+                RequestsEntry.COLUMN_REQUEST_RESOURCE + TEXT + COMMA +
+                RequestsEntry.COLUMN_REQUEST_STATUS + INTEGER + DEFAULT + RequestsEntry.STATUS_REQUESTED + COMMA +
+                FOREIGN_KEY + " (" + RequestsEntry.COLUMN_INCIDENT_NUMBER + ") " +
+                    REFERENCES + IncidentEntry.TABLE_NAME +
+                    " (" + IncidentEntry.COLUMN_INCIDENT_NUMBER + ") " + COMMA +
+                FOREIGN_KEY + " (" + RequestsEntry.COLUMN_UNIT_ID + ") " +
+                    REFERENCES + IncidentEntry.TABLE_NAME + " (" + IncidentEntry.COLUMN_UNIT_ID + "));";
 
         //Execute the sql statement
         db.execSQL(SQL_CREATE_INCIDENTS_TABLE);

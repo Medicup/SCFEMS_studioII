@@ -21,29 +21,58 @@ public final class DataContract {
      */
     private DataContract(){}
 
-    //CONTENT_AUTHORITY represents the entire name for the content provider
+    /*
+    * Unique integers assigned for each UriMatch
+    */
+    public static final int URI_INCIDENTS = 100;
+//   private static final int INCIDENT_ID = 101;
+
+    /*
+     * CONTENT_AUTHORITY represents the entire name for the content provider
+     * It is found in the AndroidManifest.xml and necessary for the app to
+     * forward all content requests.  The provider section in the AndroidManifest
+     * then directs the requests to the provider class identified as the
+     * provider name: .data.DataProvider
+     */
     public static final String CONTENT_AUTHORITY = "com.example.android.scfems";
 
-    //USE CONTENT_AUTHORITY to make the base URI or "domain name" for content provider
+    /*
+     * BASE_CONTEENT_URI is derived from parsing the URI of the
+     * "content://" string with the CONTENT_AUTHORITY.
+     */
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
-    // Static paths for looking at incidents
+    /*
+     * Each table must identify a unique PATH outside of their respective
+     * class.  This will be used with the BASE_CONTENT URI to uniquely
+     * identify them
+     */
     public static final String PATH_INCIDENTS = "incidents";
+    public static final String PATH_INCIDENT_ID = "incidents/#";
     public static final String PATH_REQUESTS = "requests";
 
-    // Inner class for incidents table
-    public static class incidentEntry implements BaseColumns {
+    /*
+     * Global static error messages
+     */
+    public static final String ERROR_ILLEGAL_ARG = "Cannot query unknown URI ";
 
-        // URI for access
+    // Inner class for incidents table
+    public static class IncidentEntry implements BaseColumns {
+
+        /*
+         * CONTENT_URI is the unique uri for the table name. It
+         * concatenates the BASE_CONTENT_URI with the unique table name.
+         * Each table will have its own unique CONTENT_URI configured
+         */
         public static final Uri CONTENT_URI =
-            BASE_CONTENT_URI.buildUpon().appendPath(PATH_INCIDENTS).build();
+            BASE_CONTENT_URI.withAppendedPath(BASE_CONTENT_URI,PATH_INCIDENTS);
 
         public static final String CONTENT_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
                         CONTENT_AUTHORITY + PATH_INCIDENTS;
-        public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
-                        CONTENT_AUTHORITY + PATH_INCIDENTS;
+//        public static final String CONTENT_ITEM_TYPE =
+//                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+//                        CONTENT_AUTHORITY + PATH_INCIDENT_ID;
 
 
         public static final String TABLE_NAME = "incidents";
@@ -74,7 +103,7 @@ public final class DataContract {
         } */
     }
 
-    public static class requestsEntry implements BaseColumns {
+    public static class RequestsEntry implements BaseColumns {
         // URI for access
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_REQUESTS).build();
@@ -101,19 +130,19 @@ public final class DataContract {
         public static final int STATUS_DENIED = 3;
     }
 
-    public static class unitsEntry implements BaseColumns{
+    public static class UnitsEntry implements BaseColumns{
 
     }
 
-    public static class usersEntry implements BaseColumns{
+    public static class UsersEntry implements BaseColumns{
 
     }
 
-    public static class citiesEntry implements BaseColumns{
+    public static class CitiesEntry implements BaseColumns{
 
     }
 
-    public static class statesEntry implements BaseColumns{
+    public static class StatesEntry implements BaseColumns{
 
     }
 
