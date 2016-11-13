@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.android.scfems.data.DataContract;
@@ -101,42 +102,19 @@ public class MainActivity extends AppCompatActivity {
 
         Cursor cursor = getContentResolver().query(IncidentEntry.CONTENT_URI,projection,null,null,null);
 
+        //find listView for incidents
+        ListView incidentListView = (ListView)findViewById(R.id.main_list_view);
 
-        TextView displayView = (TextView)findViewById(R.id.text_view_incident_sum);
+        //check for empty listView and display text of such
+        View emptyView = findViewById(R.id.empty_view);
+        incidentListView.setEmptyView(emptyView);
 
-        try{
+        //setup adapter for listview
+        UsarCursorAdapter adapter = new UsarCursorAdapter(this, cursor);
 
-            displayView.setText("Number of rows in incidents DB: " + cursor.getCount());
-            displayView.append("\n" + IncidentEntry._ID + " - " +
-                IncidentEntry.COLUMN_INCIDENT_NUMBER + " - " +
-                IncidentEntry.COLUMN_UNIT_ID + " - " +
-                IncidentEntry.COLUMN_STREET_NUMBER + " - " +
-                IncidentEntry.COLUMN_STREET_NAME);
+        //attach adapter
+        incidentListView.setAdapter(adapter);
 
-            int idColumnIndex = cursor.getColumnIndex(IncidentEntry._ID);
-            int incidentNumberColumnIndex = cursor.getColumnIndex(IncidentEntry.COLUMN_INCIDENT_NUMBER);
-            int unitColumnIndex = cursor.getColumnIndex(IncidentEntry.COLUMN_UNIT_ID);
-            int streetNumberIndex = cursor.getColumnIndex(IncidentEntry.COLUMN_STREET_NUMBER);
-            int streetNameIndex = cursor.getColumnIndex(IncidentEntry.COLUMN_STREET_NAME);
-
-            while (cursor.moveToNext()){
-                int currentID = cursor.getInt(idColumnIndex);
-                int currentIncNumber = cursor.getInt(incidentNumberColumnIndex);
-                String currentUnitId = cursor.getString(unitColumnIndex);
-                int currentStreetNumber = cursor.getInt(streetNumberIndex);
-                String currentStreetName = cursor.getString(streetNameIndex);
-
-                displayView.append(("\n" + currentID + " - " +
-                    currentIncNumber + " - " +
-                    currentUnitId + " - " +
-                    currentStreetNumber + " - " +
-                    currentStreetName));
-            }
-        }finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
     }
 
     private void insertTestData(){//TODO remove insertTestData

@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
 import com.example.android.scfems.R;
 import com.example.android.scfems.data.DataContract.*;
 
@@ -19,8 +18,6 @@ import com.example.android.scfems.data.DataContract.*;
  */
 public class DataProvider extends ContentProvider {
     public static final String TAG = DataProvider.class.getSimpleName();
-
-
 
     /*
      * Creates a UriMatcher object for the ContentProvider. Variable
@@ -38,11 +35,10 @@ public class DataProvider extends ContentProvider {
          */
         sUriMatcher.addURI(DataContract.CONTENT_AUTHORITY, DataContract.PATH_INCIDENTS,
                 DataContract.URI_INCIDENTS);
-      //  sUriMatcher.addURI(DataContract.CONTENT_AUTHORITY, DataContract.PATH_INCIDENTS,101);
     }
+
     // Database helper object
     private DbHelper dbHelper;
-
 
     @Override
     public boolean onCreate() {
@@ -120,7 +116,7 @@ public class DataProvider extends ContentProvider {
         Log.i(TAG, "SANITY CHECK***"); //TODO remove
         if (incidentNumber == null){
             throw new IllegalArgumentException("Incident requires incident number");
-        }
+          }
 
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         long id = database.insert(IncidentEntry.TABLE_NAME, null, values);
@@ -173,7 +169,7 @@ public class DataProvider extends ContentProvider {
 
     private int updateIncident(Uri uri, ContentValues contentValues, String selection,
                                String[] selectionArgs){
-
+//TODO need to fix. uri is not called
         if(contentValues.containsKey(IncidentEntry.COLUMN_INCIDENT_NUMBER)){
             String incidentNumber = contentValues.getAsString(IncidentEntry.COLUMN_INCIDENT_NUMBER);
             if(incidentNumber == null){

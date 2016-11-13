@@ -5,6 +5,8 @@
     <string name="action_save_incident">Save</string>
     <string name="action_delete_all">Delete ALL</string>
 
+    <string name="main_empty_view_title_text">Empty Database</string>
+    <string name="main_empty_view_subtitle_text">Substring empty</string>
     <string name="title_activity_editor">Incident Entry</string>
     <string name="editor_insert_incident_failed">Unable to create new incident</string>
     <string name="editor_insert_incident_success">Successfully saved new incident</string>
