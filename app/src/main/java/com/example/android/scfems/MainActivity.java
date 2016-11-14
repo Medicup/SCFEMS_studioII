@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         contentValues.put(IncidentEntry.COLUMN_NOTES, "THIS IS A TEST");
         contentValues.put(IncidentEntry.COLUMN_STREET_NUMBER, "1115");
         contentValues.put(IncidentEntry.COLUMN_STREET_NAME, "Stoneham Dr");
+        contentValues.put(IncidentEntry.COLUMN_CITY, "Groveland");
         contentValues.put(IncidentEntry.COLUMN_STATE,"FL");
 
         Uri newUri = getContentResolver().insert(IncidentEntry.CONTENT_URI, contentValues);

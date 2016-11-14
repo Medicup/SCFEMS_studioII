@@ -4,6 +4,10 @@
     <string name="action_insert_test">TEST DATA</string>
     <string name="action_save_incident">Save</string>
     <string name="action_delete_all">Delete ALL</string>
+    <string name="button_editor_response_info">Incident</string>
+    <string name="button_editor_arrival_info">Found</string>
+    <string name="button_editor_request_info">Requests</string>
+    <string name="button_editor_submit_incident">SUBMIT</string>
 
     <string name="main_empty_view_title_text">Empty Database</string>
     <string name="main_empty_view_subtitle_text">Substring empty</string>
@@ -38,5 +42,14 @@
     <string name="text_view_user_0">Responder 1</string>
     <string name="text_view_user_1">Responder 2</string>
     <string name="text_view_user_2">Responder 3</string>
+    <string name="text_view_incident_request">Type of incident response requested</string>
+    <string name="text_view_incident_found">Type of incident response found</string>
+    <string name="item_one">Test type one</string>
+    <string name="item_two">Test type two</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_found">FoundActivity</string>
+    <string name="title_activity_request">RequestActivity</string>
 
 </resources>
