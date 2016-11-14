@@ -8,9 +8,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
 import android.util.Log;
 import com.example.android.scfems.R;
 import com.example.android.scfems.data.DataContract.*;
+
+import java.net.URLEncoder;
+import java.util.Set;
 
 /**
  * Project: SCFEMS
@@ -35,6 +39,9 @@ public class DataProvider extends ContentProvider {
          */
         sUriMatcher.addURI(DataContract.CONTENT_AUTHORITY, DataContract.PATH_INCIDENTS,
                 DataContract.URI_INCIDENTS);
+
+        sUriMatcher.addURI(DataContract.CONTENT_AUTHORITY, DataContract.PATH_INCIDENTS + "/#",
+                DataContract.URI_INCIDENT_ID);
     }
 
     // Database helper object
@@ -66,7 +73,7 @@ public class DataProvider extends ContentProvider {
          * int variable match called to use the uriMatcher.  Then use the switch
          * process to identify if there is a matching URI and what action to perform
          */
-        final int match = sUriMatcher.match(uri);
+        int match = sUriMatcher.match(uri);
         switch (match){
             case DataContract.URI_INCIDENTS:
                 cursor = db.query(IncidentEntry.TABLE_NAME, projection, selection, selectionArgs,
@@ -82,20 +89,33 @@ public class DataProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException(DataContract.ERR_ILLEGAL_ARG_QUERY + uri);
         }
+
+        /*
+         * Set content notification uri so we can update the query when the database changes
+         */
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
         return cursor;
     }
 
     @Nullable
     @Override
     public String getType(Uri uri) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match){
+            case DataContract.URI_INCIDENTS:
+                return IncidentEntry.CONTENT_LIST_TYPE;
+            case DataContract.URI_INCIDENT_ID:
+                return IncidentEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalArgumentException("Unknown uri + " + uri);
+        }
     }
     //TODO need to implement MIME for gettype Section 3
 
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
-
         final int match = sUriMatcher.match(uri);
         switch (match){
             case DataContract.URI_INCIDENTS:
@@ -129,6 +149,15 @@ public class DataProvider extends ContentProvider {
             Log.d(TAG, "Failed to insert row for " + uri);
             return null;
         }
+
+        /*
+         * Notify contentResolver that the dataset has changed and should
+         * the contentResolver should be refreshed.
+         * Null allows for cursorResolver to be recalled
+         */
+        getContext().getContentResolver().notifyChange(uri,null);
+
+        //Return URI with inserted ID
         return ContentUris.withAppendedId(uri, id);
     }
     @Override
@@ -137,16 +166,28 @@ public class DataProvider extends ContentProvider {
 
         final int match = sUriMatcher.match(uri);
 
+        //Variable to store number of rows deleted
+        int rowsDeleted;
+
         switch (match){
             case DataContract.URI_INCIDENTS:
-                return database.delete(IncidentEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(IncidentEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             case DataContract.URI_INCIDENT_ID:
                 selection = IncidentEntry._ID + "=?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
-                return database.delete(IncidentEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted =  database.delete(IncidentEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
+
+        //if one or more rows deleted notify the contentResolver
+
+        if(rowsDeleted != 0){
+            getContext().getContentResolver().notifyChange(uri,null);
+        }
+        return rowsDeleted;
     }
 
     @Override
@@ -183,6 +224,18 @@ public class DataProvider extends ContentProvider {
 
         SQLiteDatabase database = dbHelper.getWritableDatabase();
 
-        return database.update(IncidentEntry.TABLE_NAME, contentValues, selection, selectionArgs);
+        ///update database and return number of rows updated
+        int rowsUpdated = database.update(IncidentEntry.TABLE_NAME, contentValues,
+                selection, selectionArgs);
+
+        /*
+         * Check to make sure at least one row updated. If so, notify change to contentResolver
+         */
+        if (rowsUpdated != 0){
+            getContext().getContentResolver().notifyChange(uri,null);
+        }
+
+        //return the total rows updated
+        return rowsUpdated;
     }
 }

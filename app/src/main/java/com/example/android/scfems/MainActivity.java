@@ -1,5 +1,6 @@
 package com.example.android.scfems;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.UriMatcher;
@@ -9,12 +10,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,16 +30,23 @@ import com.example.android.scfems.data.DbHelper;
 
 import org.w3c.dom.Text;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     public static final String TAG = MainActivity.class.getSimpleName();
 
-    //TODO correct access to sql db
-    private DbHelper dbHelper;
+    //Integer loader constant for Loader
+    private static final int USAR_LOADER = 0;
+
+    //adapter object for listView
+    UsarCursorAdapter mCursorAdapter;
+
+//    //TODO correct access to sql db
+//    private DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -49,13 +62,57 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
 //        dbHelper = new DbHelper(this);
+
+        //find listView for incidents
+        ListView incidentListView = (ListView)findViewById(R.id.main_list_view);
+
+        //check for empty listView and display text of such
+        View emptyView = findViewById(R.id.empty_view);
+        incidentListView.setEmptyView(emptyView);
+
+        mCursorAdapter = new UsarCursorAdapter(this,null);
+        incidentListView.setAdapter(mCursorAdapter);
+
+        /*
+         * setOnItemClickListener used to identify when a specific row is
+         * selected from the listView on the MainActivity.  It will pass the
+         * _id in the URI it sends in the intent for the EditorActivity. This
+         * allows the EditorActivity to differentiate a new incident and when to
+         * load the current values for a selected incident from the listView.
+         * This needs to be accepted in the onCreate on the EditorActivity.
+         */
+        //TODO description
+        incidentListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id){
+                //Open new EditorActivity
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+
+                /*
+                 * Append the id for the specific incident clicked from the listView to
+                 * the ContentURI.  This allows the EditorActivity to differentiate between
+                 * and empty (new incident) and an id present to load the current values
+                 * for.
+                 */
+                Uri currentIncidentUri = ContentUris.withAppendedId(IncidentEntry.CONTENT_URI, id);
+
+                //Set the intent with the uri from the specific row clicked
+                intent.setData(currentIncidentUri);
+
+                startActivity(intent);
+            }
+        });
+
+        getLoaderManager().initLoader(USAR_LOADER, null,this);
     }
 
     @Override //TODO CHECK THIS
     protected void onStart(){
         super.onStart();
-        displayIncidentsInfo();
+        //displayIncidentsInfo();
     }
 
     @Override
@@ -76,46 +133,42 @@ public class MainActivity extends AppCompatActivity {
         switch (id){
             case R.id.action_main_delete_all:
                 deleteAllData();
-                displayIncidentsInfo();
+            //    displayIncidentsInfo();
                 return true;
             case R.id.action_insert_test:
                 insertTestData();
-                displayIncidentsInfo();
+              //  displayIncidentsInfo();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void displayIncidentsInfo(){
-        /*
-         * Identify columns to return on query
-         */
-        String [] projection = {
-                IncidentEntry._ID,
-                IncidentEntry.COLUMN_INCIDENT_NUMBER,
-                IncidentEntry.COLUMN_UNIT_ID,
-                IncidentEntry.COLUMN_STREET_NUMBER,
-                IncidentEntry.COLUMN_STREET_NAME
-        };
+//    private void displayIncidentsInfo(){
+//        /*
+//         * Identify columns to return on query
+//         */
+//        String [] projection = {
+//                IncidentEntry._ID,
+//                IncidentEntry.COLUMN_INCIDENT_NUMBER,
+//                IncidentEntry.COLUMN_UNIT_ID,
+//                IncidentEntry.COLUMN_STREET_NUMBER,
+//                IncidentEntry.COLUMN_STREET_NAME
+//        };
+//
+//
+//        Cursor cursor = getContentResolver().query(IncidentEntry.CONTENT_URI,projection,null,null,null);
+//
 
 
-        Cursor cursor = getContentResolver().query(IncidentEntry.CONTENT_URI,projection,null,null,null);
+//
+//        //setup adapter for listview
+//        UsarCursorAdapter adapter = new UsarCursorAdapter(this, cursor);
 
-        //find listView for incidents
-        ListView incidentListView = (ListView)findViewById(R.id.main_list_view);
-
-        //check for empty listView and display text of such
-        View emptyView = findViewById(R.id.empty_view);
-        incidentListView.setEmptyView(emptyView);
-
-        //setup adapter for listview
-        UsarCursorAdapter adapter = new UsarCursorAdapter(this, cursor);
-
-        //attach adapter
-        incidentListView.setAdapter(adapter);
-
-    }
+//        //attach adapter
+//        incidentListView.setAdapter(adapter);
+//
+//    }
 
     private void insertTestData(){//TODO remove insertTestData
 
@@ -142,4 +195,38 @@ public class MainActivity extends AppCompatActivity {
         Log.v(TAG, rowsDeleted + " rows deleted from database");
 
     }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        //Projection to define columns to return
+        String [] projection = {
+                IncidentEntry._ID,
+                IncidentEntry.COLUMN_INCIDENT_NUMBER,
+                IncidentEntry.COLUMN_UNIT_ID,
+                IncidentEntry.COLUMN_STREET_NUMBER,
+                IncidentEntry.COLUMN_STREET_NAME
+        };
+
+        return new CursorLoader(this,       //activity context
+                IncidentEntry.CONTENT_URI,  //provider content uri
+                projection,                 //columns to include
+                null,                       //selection clause
+                null,                       //selection arguments
+                null);                      //default sort order
+    }
+
+
+    //@Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        //update with new cursor containing data
+        mCursorAdapter.swapCursor(data);
+    }
+
+    //@Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+//Callback when data to be deleted
+        mCursorAdapter.swapCursor(null);
+    }
+
+
 }

@@ -58,7 +58,7 @@ public final class DataContract {
     public static final String ERR_ILLEGAL_ARG_INSERT = "Insertion is not supported for ";
 
     // Inner class for incidents table
-    public static class IncidentEntry implements BaseColumns {
+    public static final class IncidentEntry implements BaseColumns {
 
         /*
          * CONTENT_URI is the unique uri for the table name. It
@@ -68,12 +68,14 @@ public final class DataContract {
         public static final Uri CONTENT_URI =
             BASE_CONTENT_URI.withAppendedPath(BASE_CONTENT_URI,PATH_INCIDENTS);
 
-        public static final String CONTENT_TYPE =
+
+        public static final String CONTENT_LIST_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
                         CONTENT_AUTHORITY + PATH_INCIDENTS;
-//        public static final String CONTENT_ITEM_TYPE =
-//                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
-//                        CONTENT_AUTHORITY + PATH_INCIDENT_ID;
+
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + PATH_INCIDENTS;
 
 
         public static final String TABLE_NAME = "incidents";

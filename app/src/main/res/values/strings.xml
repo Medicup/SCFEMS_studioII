@@ -7,9 +7,16 @@
 
     <string name="main_empty_view_title_text">Empty Database</string>
     <string name="main_empty_view_subtitle_text">Substring empty</string>
-    <string name="title_activity_editor">Incident Entry</string>
+
+    <string name="title_activity_editor_new">New Incident</string>
+    <string name="title_activity_editor_edit">Edit Incident</string>
+
+
     <string name="editor_insert_incident_failed">Unable to create new incident</string>
     <string name="editor_insert_incident_success">Successfully saved new incident</string>
+    <string name="editor_update_incident_failed">Unable to update current incident</string>
+    <string name="editor_update_incident_success">Successfully updated current incident</string>
+
     <string name="provider_insert_incident_number">Incident requires an incident number</string>
     <string name="provider_insert_unit_number">Incident requires an assigned unit</string>
 
