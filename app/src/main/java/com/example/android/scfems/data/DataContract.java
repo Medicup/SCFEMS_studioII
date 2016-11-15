@@ -27,7 +27,10 @@ public final class DataContract {
     public static final int URI_INCIDENTS = 100;
     public static final int URI_INCIDENT_ID = 101;
 
+    /* Uri string to pass from one intent to another */
+    public static final String URI_INTENT_STRING = "setUriString";
     /*
+
      * CONTENT_AUTHORITY represents the entire name for the content provider
      * It is found in the AndroidManifest.xml and necessary for the app to
      * forward all content requests.  The provider section in the AndroidManifest
@@ -56,6 +59,7 @@ public final class DataContract {
      */
     public static final String ERR_ILLEGAL_ARG_QUERY = "Cannot query unknown URI ";
     public static final String ERR_ILLEGAL_ARG_INSERT = "Insertion is not supported for ";
+    public static final String ERR_ILLEGAL_ARG_INTENT = " Error passing null Uri value through Intent";
 
     // Inner class for incidents table
     public static final class IncidentEntry implements BaseColumns {
@@ -67,7 +71,6 @@ public final class DataContract {
          */
         public static final Uri CONTENT_URI =
             BASE_CONTENT_URI.withAppendedPath(BASE_CONTENT_URI,PATH_INCIDENTS);
-
 
         public static final String CONTENT_LIST_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
