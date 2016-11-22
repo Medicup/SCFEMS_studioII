@@ -75,10 +75,12 @@ public class DataProvider extends ContentProvider {
          */
         int match = sUriMatcher.match(uri);
         switch (match){
+            //All data in incident table
             case DataContract.URI_INCIDENTS:
                 cursor = db.query(IncidentEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
+            //Unique row in incident table
             case DataContract.URI_INCIDENT_ID:
                 selection = IncidentEntry._ID + "=?";
                 selectionArgs = new String [] {String.valueOf(ContentUris.parseId(uri))};
@@ -86,6 +88,57 @@ public class DataProvider extends ContentProvider {
                 cursor = db.query(IncidentEntry.TABLE_NAME, projection, selection, selectionArgs,
                     null, null, sortOrder);
                 break;
+
+            //All data in Incident Type table
+            case DataContract.URI_INCTYPES:
+                cursor = db.query(IncidentTypeEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
+            //Unique row in incident type table
+            case DataContract.URI_INCTYPE_ID:
+                selection = IncidentTypeEntry._ID + "=?";
+                selectionArgs = new String [] {String.valueOf(ContentUris.parseId(uri))};
+
+                cursor = db.query(IncidentTypeEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
+
+            //All data in Requests Entry table
+            case DataContract.URI_RESOURCE_REQUESTS:
+                cursor = db.query(RequestsEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
+            //Unique row in incident type table
+            case DataContract.URI_RESOURCE_REQUEST_ID:
+                selection = RequestsEntry._ID + "=?";
+                selectionArgs = new String [] {String.valueOf(ContentUris.parseId(uri))};
+
+                cursor = db.query(RequestsEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
+
+            //All data in Resources Entry table
+            case DataContract.URI_RESOURCES:
+                cursor = db.query(ResourcesEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
+            //Unique row in resource type table
+            case DataContract.URI_RESOURCE_ID:
+                selection = ResourcesEntry._ID + "=?";
+                selectionArgs = new String [] {String.valueOf(ContentUris.parseId(uri))};
+
+                cursor = db.query(ResourcesEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
+
+
+
+
+
+
+
+
+
             default:
                 throw new IllegalArgumentException(DataContract.ERR_ILLEGAL_ARG_QUERY + uri);
         }

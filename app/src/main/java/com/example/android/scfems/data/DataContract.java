@@ -21,16 +21,27 @@ public final class DataContract {
      */
     private DataContract(){}
 
+    public static final String INCIDENT_TYPE_REQUEST = "_incTypeRequest";
     /*
     * Unique integers assigned for each UriMatch
     */
     public static final int URI_INCIDENTS = 100;
     public static final int URI_INCIDENT_ID = 101;
+    public static final int URI_INCTYPES = 110;
+    public static final int URI_INCTYPE_ID = 111;
+    public static final int URI_RESOURCE_REQUESTS = 120;
+    public static final int URI_RESOURCE_REQUEST_ID = 121;
+    public static final int URI_RESOURCES = 130;
+    public static final int URI_RESOURCE_ID = 131;
+    public static final int URI_UNITS = 140;
+    public static final int URI_UNIT_ID = 141;
+    public static final int URI_USERS = 150;
+    public static final int URI_USER_ID = 151;
 
     /* Uri string to pass from one intent to another */
     public static final String URI_INTENT_STRING = "setUriString";
-    /*
 
+    /*
      * CONTENT_AUTHORITY represents the entire name for the content provider
      * It is found in the AndroidManifest.xml and necessary for the app to
      * forward all content requests.  The provider section in the AndroidManifest
@@ -51,8 +62,11 @@ public final class DataContract {
      * identify them
      */
     public static final String PATH_INCIDENTS = "incidents";
-    public static final String PATH_INCIDENT_ID = "incidents/#";
+    public static final String PATH_INCTYPE = "incType";
     public static final String PATH_REQUESTS = "requests";
+    public static final String PATH_RESOURCES = "resources";
+    public static final String PATH_UNIT = "unit";
+    public static final String PATH_USER = "user";
 
     /*
      * Global static error messages
@@ -63,7 +77,6 @@ public final class DataContract {
 
     // Inner class for incidents table
     public static final class IncidentEntry implements BaseColumns {
-
         /*
          * CONTENT_URI is the unique uri for the table name. It
          * concatenates the BASE_CONTENT_URI with the unique table name.
@@ -81,10 +94,10 @@ public final class DataContract {
                         CONTENT_AUTHORITY + PATH_INCIDENTS;
 
 
-        public static final String TABLE_NAME = "incidents";
+        public static final String TABLE_NAME = "tbl_incident";
 
         public static final String _ID = BaseColumns._ID;
-        public static final String COLUMN_INCIDENT_NUMBER = "incidentNumber";
+        public static final String COLUMN_INCIDENT_NUMBER = "incidentId";
         public static final String COLUMN_UNIT_ID = "unitId";
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_TIME = "time";
@@ -109,6 +122,25 @@ public final class DataContract {
         } */
     }
 
+    public static class IncidentTypeEntry implements BaseColumns{
+        // URI for access
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_INCTYPE).build();
+
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + PATH_INCTYPE;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + PATH_INCTYPE;
+
+        public static final String TABLE_NAME = "incType";
+
+        public static final String _ID = BaseColumns._ID;
+        public static final String COLUMN_INCTYPE_CODE = "incTypeID";
+        public static final String COLUMN_INCTYPE_DESC = "incTypeDesc";
+    }
+
     public static class RequestsEntry implements BaseColumns {
         // URI for access
         public static final Uri CONTENT_URI =
@@ -121,14 +153,15 @@ public final class DataContract {
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
                         CONTENT_AUTHORITY + PATH_REQUESTS;
 
-
-        public static final String TABLE_NAME = "requests";
+        public static final String TABLE_NAME = "resourceRequest";
 
         public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_INCIDENT_NUMBER = "incidentID";
         public static final String COLUMN_UNIT_ID = "unitID";
-        public static final String COLUMN_REQUEST_RESOURCE = "resource";
+        public static final String COLUMN_REQUEST_RESOURCE_ID = "resource";
+        public static final String COLUMN_QUANTITY = "quantity";
         public static final String COLUMN_REQUEST_STATUS = "status";
+        public static final String COLUMN_REQUEST_NOTES = "outcome_notes";
 
         public static final int STATUS_REQUESTED = 0;
         public static final int STATUS_PENDING = 1;
@@ -136,20 +169,72 @@ public final class DataContract {
         public static final int STATUS_DENIED = 3;
     }
 
+    public static class ResourcesEntry implements BaseColumns {
+        // URI for access
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_RESOURCES).build();
+
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + PATH_RESOURCES;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + PATH_RESOURCES;
+
+        public static final String TABLE_NAME = "resources";
+
+        public static final String _ID = BaseColumns._ID;
+        public static final String COLUMN_RESOURCE_ID = "resourceID";
+        public static final String COLUMN_RESOURCE_DESC = "ResourceDesc";
+    }
+
     public static class UnitsEntry implements BaseColumns{
+        // URI for access
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_UNIT).build();
+
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + PATH_RESOURCES;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + PATH_RESOURCES;
+
+        public static final String TABLE_NAME = "unit";
+
+        public static final String _ID = BaseColumns._ID;
+        public static final String COLUMN_UNIT_ID = "unitID";
+        public static final String COLUMN_UNIT_DESC = "unitDesc";
 
     }
 
     public static class UsersEntry implements BaseColumns{
+        // URI for access
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_USER).build();
 
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + PATH_RESOURCES;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
+                        CONTENT_AUTHORITY + PATH_RESOURCES;
+
+        public static final String TABLE_NAME = "user";
+
+        public static final String _ID = BaseColumns._ID;
+        public static final String COLUMN_USER_NAME = "unitID";
+        public static final String COLUMN_PASSWORD = "unitDesc";
+        public static final String COLUMN_NAME_FIRST = "firstName";
+        public static final String COLUMN_NAME_LAST = "lastName";
     }
 
     public static class CitiesEntry implements BaseColumns{
-
+        //TODO enter cities data
     }
 
     public static class StatesEntry implements BaseColumns{
-
+        //TODO enter states data
     }
 
 }

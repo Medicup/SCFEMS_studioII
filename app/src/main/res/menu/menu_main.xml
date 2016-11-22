@@ -13,4 +13,9 @@
         android:title="@string/action_delete_all"
         app:showAsAction="never"
         />
+    <item
+        android:id="@+id/action_login"
+        android:orderInCategory="300"
+        android:title="LOGIN_TEST"
+        app:showAsAction="never" />
 </menu>

@@ -39,9 +39,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     //adapter object for listView
     UsarCursorAdapter mCursorAdapter;
 
-//    //TODO correct access to sql db
-//    private DbHelper dbHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,15 +53,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
-              //TODO Consider Snackbar action
-              Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
-
-
-
-//        dbHelper = new DbHelper(this);
 
         //find listView for incidents
         ListView incidentListView = (ListView)findViewById(R.id.main_list_view);
@@ -84,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
          * load the current values for a selected incident from the listView.
          * This needs to be accepted in the onCreate on the EditorActivity.
          */
-        //TODO description
         incidentListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id){
@@ -112,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override //TODO CHECK THIS
     protected void onStart(){
         super.onStart();
-        //displayIncidentsInfo();
+
     }
 
     @Override
@@ -139,36 +128,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 insertTestData();
               //  displayIncidentsInfo();
                 return true;
+            case R.id.action_login:
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-//    private void displayIncidentsInfo(){
-//        /*
-//         * Identify columns to return on query
-//         */
-//        String [] projection = {
-//                IncidentEntry._ID,
-//                IncidentEntry.COLUMN_INCIDENT_NUMBER,
-//                IncidentEntry.COLUMN_UNIT_ID,
-//                IncidentEntry.COLUMN_STREET_NUMBER,
-//                IncidentEntry.COLUMN_STREET_NAME
-//        };
-//
-//
-//        Cursor cursor = getContentResolver().query(IncidentEntry.CONTENT_URI,projection,null,null,null);
-//
-
-
-//
-//        //setup adapter for listview
-//        UsarCursorAdapter adapter = new UsarCursorAdapter(this, cursor);
-
-//        //attach adapter
-//        incidentListView.setAdapter(adapter);
-//
-//    }
 
     private void insertTestData(){//TODO remove insertTestData
 
@@ -191,10 +156,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void deleteAllData(){
-
         int rowsDeleted = getContentResolver().delete(IncidentEntry.CONTENT_URI, null, null);
         Log.v(TAG, rowsDeleted + " rows deleted from database");
-
     }
 
     @Override
@@ -225,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     //@Override
     public void onLoaderReset(Loader<Cursor> loader) {
-//Callback when data to be deleted
+        //Callback when data to be deleted
         mCursorAdapter.swapCursor(null);
     }
 
