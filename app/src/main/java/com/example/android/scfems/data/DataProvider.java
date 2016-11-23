@@ -131,7 +131,33 @@ public class DataProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
 
+            //All data in Unit Entry table
+            case DataContract.URI_UNITS:
+                cursor = db.query(UnitsEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
+            //Unique row in resource type table
+            case DataContract.URI_UNIT_ID:
+                selection = UnitsEntry._ID + "=?";
+                selectionArgs = new String [] {String.valueOf(ContentUris.parseId(uri))};
 
+                cursor = db.query(UnitsEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
+
+            //All data in Unit Entry table
+            case DataContract.URI_USERS:
+                cursor = db.query(UsersEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
+            //Unique row in resource type table
+            case DataContract.URI_USER_ID:
+                selection = UsersEntry._ID + "=?";
+                selectionArgs = new String [] {String.valueOf(ContentUris.parseId(uri))};
+
+                cursor = db.query(UsersEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
 
 
 

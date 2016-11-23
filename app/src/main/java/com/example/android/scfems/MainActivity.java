@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,11 +28,21 @@ import android.widget.TextView;
 import com.example.android.scfems.data.DataContract;
 import com.example.android.scfems.data.DataContract.*;
 import com.example.android.scfems.data.DbHelper;
+import com.example.android.scfems.data.UrlHelper;
+import com.example.android.scfems.data.UrlHelper.*;
+import com.example.android.scfems.data.UsarAsyncTask;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
-    public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     //Integer loader constant for Loader
     private static final int USAR_LOADER = 0;
@@ -53,8 +64,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
+
             }
         });
+
+
+
 
         //find listView for incidents
         ListView incidentListView = (ListView)findViewById(R.id.main_list_view);
@@ -95,8 +110,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
+        //TODO need to call the asyncTask
         getLoaderManager().initLoader(USAR_LOADER, null,this);
     }
+
 
     @Override //TODO CHECK THIS
     protected void onStart(){
@@ -157,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private void deleteAllData(){
         int rowsDeleted = getContentResolver().delete(IncidentEntry.CONTENT_URI, null, null);
-        Log.v(TAG, rowsDeleted + " rows deleted from database");
+        Log.v(LOG_TAG, rowsDeleted + " rows deleted from database");
     }
 
     @Override
@@ -192,5 +209,5 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mCursorAdapter.swapCursor(null);
     }
 
-
 }
+

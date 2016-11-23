@@ -7,6 +7,7 @@ import android.provider.BaseColumns;
 
 import java.io.FileReader;
 import java.net.URI;
+import java.net.URL;
 
 /**
  * Project: SCFEMS
@@ -20,6 +21,16 @@ public final class DataContract {
      * instantiating the contract class
      */
     private DataContract(){}
+
+    /*
+     * Data url to parse
+     */
+    public static final String INCIDENT_TYPE_URL = "http://192.168.1.250/read_allIncidentType.php";
+    public static final String USER_URL = "http://192.168.1.250/read_allUser.php";
+    public static final String UNIT_URL = "http://192.168.1.250/read_allUnit.php";
+    public static final String RESOURCE_URL = "http://192.168.1.250/read_allResources.php";
+    public static final String REQ_RESOURCE_URL = "http://192.168.1.250/read_allResRequests.php";
+
 
     public static final String INCIDENT_TYPE_REQUEST = "_incTypeRequest";
     /*
@@ -134,7 +145,7 @@ public final class DataContract {
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
                         CONTENT_AUTHORITY + PATH_INCTYPE;
 
-        public static final String TABLE_NAME = "incType";
+        public static final String TABLE_NAME = "tbl_incType";
 
         public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_INCTYPE_CODE = "incTypeID";
@@ -153,7 +164,7 @@ public final class DataContract {
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
                         CONTENT_AUTHORITY + PATH_REQUESTS;
 
-        public static final String TABLE_NAME = "resourceRequest";
+        public static final String TABLE_NAME = "tbl_resourceRequest";
 
         public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_INCIDENT_NUMBER = "incidentID";
@@ -181,7 +192,7 @@ public final class DataContract {
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
                         CONTENT_AUTHORITY + PATH_RESOURCES;
 
-        public static final String TABLE_NAME = "resources";
+        public static final String TABLE_NAME = "tbl_resources";
 
         public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_RESOURCE_ID = "resourceID";
@@ -220,7 +231,7 @@ public final class DataContract {
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
                         CONTENT_AUTHORITY + PATH_RESOURCES;
 
-        public static final String TABLE_NAME = "user";
+        public static final String TABLE_NAME = "tbl_user";
 
         public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_USER_NAME = "unitID";
