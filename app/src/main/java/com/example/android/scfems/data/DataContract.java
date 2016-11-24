@@ -49,6 +49,12 @@ public final class DataContract {
     public static final int URI_USERS = 150;
     public static final int URI_USER_ID = 151;
 
+    public static final String TABLE_NAME = "unit";
+
+    public static final String _ID = BaseColumns._ID;
+    public static final String COLUMN_UNIT_ID = "unitID";
+    public static final String COLUMN_UNIT_DESC = "unitDesc";
+
     /* Uri string to pass from one intent to another */
     public static final String URI_INTENT_STRING = "setUriString";
 
@@ -211,7 +217,7 @@ public final class DataContract {
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
                         CONTENT_AUTHORITY + PATH_RESOURCES;
 
-        public static final String TABLE_NAME = "unit";
+        public static final String TABLE_NAME = "tbl_unit";
 
         public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_UNIT_ID = "unitID";

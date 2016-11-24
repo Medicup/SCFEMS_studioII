@@ -42,6 +42,11 @@ public class DataProvider extends ContentProvider {
 
         sUriMatcher.addURI(DataContract.CONTENT_AUTHORITY, DataContract.PATH_INCIDENTS + "/#",
                 DataContract.URI_INCIDENT_ID);
+
+        sUriMatcher.addURI(DataContract.CONTENT_AUTHORITY, DataContract.PATH_UNIT,
+                DataContract.URI_UNITS);
+        sUriMatcher.addURI(DataContract.CONTENT_AUTHORITY, DataContract.PATH_UNIT + "/#",
+                DataContract.URI_UNIT_ID);
     }
 
     // Database helper object
@@ -159,12 +164,6 @@ public class DataProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
 
-
-
-
-
-
-
             default:
                 throw new IllegalArgumentException(DataContract.ERR_ILLEGAL_ARG_QUERY + uri);
         }
@@ -199,6 +198,10 @@ public class DataProvider extends ContentProvider {
         switch (match){
             case DataContract.URI_INCIDENTS:
                 return insertIncident(uri, contentValues);
+            case DataContract.URI_UNITS:
+                return insert(uri, contentValues);//TODO added for testing
+            case DataContract.URI_UNIT_ID:
+                return insert(uri, contentValues);//TODO added for testing
             default:
                 throw new IllegalArgumentException(DataContract.ERR_ILLEGAL_ARG_INSERT + uri);
         }
@@ -280,8 +283,15 @@ public class DataProvider extends ContentProvider {
             case DataContract.URI_INCIDENT_ID:
                 selection = IncidentEntry._ID + "=?";
                 selectionArgs = new String [] {String.valueOf(ContentUris.parseId(uri))};
-
                 return updateIncident(uri, contentValues, selection, selectionArgs);
+
+            case DataContract.URI_UNITS:
+                return update(uri, contentValues, selection, selectionArgs);
+            case DataContract.URI_UNIT_ID:
+                selection = UnitsEntry._ID + "=?";
+                selectionArgs = new String [] {String.valueOf(ContentUris.parseId(uri))};
+
+                return update(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
