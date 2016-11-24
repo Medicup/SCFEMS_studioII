@@ -3,14 +3,10 @@ package com.example.android.scfems;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -21,29 +17,17 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.android.scfems.data.DataContract;
 import com.example.android.scfems.data.DataContract.*;
-import com.example.android.scfems.data.DbHelper;
-import com.example.android.scfems.data.UrlHelper;
-import com.example.android.scfems.data.UrlHelper.*;
-import com.example.android.scfems.data.UsarAsyncTask;
 
-import org.w3c.dom.Text;
-
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
 
+    String mUnitType = "";
     //Integer loader constant for Loader
     private static final int USAR_LOADER = 0;
 
@@ -55,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent getIntentFromLogin = getIntent();
+        mUnitType = getIntentFromLogin.getStringExtra(IncidentEntry.COLUMN_UNIT_ID);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -105,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 //Set the intent with the uri from the specific row clicked
                 intent.setData(currentIncidentUri);
+                intent.putExtra(IncidentEntry.COLUMN_UNIT_ID, mUnitType);
 
                 startActivity(intent);
             }
@@ -158,11 +145,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         contentValues.put(IncidentEntry.COLUMN_INCIDENT_NUMBER,"12345");
         contentValues.put(IncidentEntry.COLUMN_DATE, "10/10/1910");
         contentValues.put(IncidentEntry.COLUMN_TIME, "10:10");
-        contentValues.put(IncidentEntry.COLUMN_UNIT_ID, "C2");
+        contentValues.put(IncidentEntry.COLUMN_UNIT_ID, mUnitType);
         contentValues.put(IncidentEntry.COLUMN_GPS_LAT, "1234");
         contentValues.put(IncidentEntry.COLUMN_GPS_LONG, "5678");
         contentValues.put(IncidentEntry.COLUMN_RECEIVED_INC_TYPE, "Medical");
-        contentValues.put(IncidentEntry.COLUMN_FOUND_INC_TYPE, "Trauma");
+        contentValues.put(IncidentEntry.COLUMN_FOUND_INC_TYPE, "NEED");
         contentValues.put(IncidentEntry.COLUMN_NOTES, "THIS IS A TEST");
         contentValues.put(IncidentEntry.COLUMN_STREET_NUMBER, "1115");
         contentValues.put(IncidentEntry.COLUMN_STREET_NAME, "Stoneham Dr");
