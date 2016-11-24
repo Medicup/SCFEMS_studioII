@@ -240,8 +240,8 @@ public final class DataContract {
         public static final String TABLE_NAME = "tbl_user";
 
         public static final String _ID = BaseColumns._ID;
-        public static final String COLUMN_USER_NAME = "unitID";
-        public static final String COLUMN_PASSWORD = "unitDesc";
+        public static final String COLUMN_USER_NAME = "userName";
+        public static final String COLUMN_PASSWORD = "password";
         public static final String COLUMN_NAME_FIRST = "firstName";
         public static final String COLUMN_NAME_LAST = "lastName";
     }

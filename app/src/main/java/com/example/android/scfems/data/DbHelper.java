@@ -122,15 +122,26 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public void delete(String tableName){
         SQLiteDatabase database = this.getWritableDatabase();
-        if (tableName == UnitsEntry.TABLE_NAME){
-            database.delete(tableName, null, null);
+        switch (tableName){
+            case UnitsEntry.TABLE_NAME:
+                database.delete(tableName, null, null);
+                break;
+            case IncidentTypeEntry.TABLE_NAME:
+                database.delete(tableName, null, null);
+                break;
+            case ResourcesEntry.TABLE_NAME:
+                database.delete(tableName, null, null);
+                break;
+            case UsersEntry.TABLE_NAME:
+                database.delete(tableName,null,null);
+                break;
         }
     }
     public void insert(String tableName, ContentValues contentValues){
         SQLiteDatabase database = this.getWritableDatabase();
         try{
             database.insert(tableName,null,contentValues);
-            //database.insert(tableName, null, contentValues);
+            Log.i("LOGGER", tableName + " " + contentValues.toString());
         }catch (SQLiteException e){
             Log.i(LOG_TAG, " SQLite error on insert ", e);
         }
