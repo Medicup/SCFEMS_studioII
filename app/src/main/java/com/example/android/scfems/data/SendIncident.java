@@ -35,6 +35,9 @@ public class SendIncident extends AsyncTask<String, Void, String>{
         return null;
     }
 
+    private void postIncident() throws IOException{
+
+    }
     private void sendIncident() throws IOException{
         String urlString = "http://192.168.1.250/get_incident.php";
         String response = "";
