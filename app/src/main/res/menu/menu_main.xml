@@ -18,4 +18,10 @@
         android:orderInCategory="300"
         android:title="LOGIN_TEST"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_request_edit"
+        android:orderInCategory="50"
+        android:title="@string/action_requests"
+        app:showAsAction="ifRoom"
+        />
 </menu>

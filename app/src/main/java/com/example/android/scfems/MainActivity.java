@@ -54,9 +54,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-
-
-
         //find listView for incidents
         ListView incidentListView = (ListView)findViewById(R.id.main_list_view);
 
@@ -133,8 +130,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
               //  displayIncidentsInfo();
                 return true;
             case R.id.action_login:
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
+                Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
+                return true;
+            case R.id.action_request_edit:
+                Intent request_intent = new Intent(MainActivity.this, RequestActivity.class);
+                startActivity(request_intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

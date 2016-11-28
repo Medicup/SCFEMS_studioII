@@ -4,6 +4,7 @@
     <string name="action_insert_test">TEST DATA</string>
     <string name="action_save_incident">Save</string>
     <string name="action_delete_all">Delete ALL</string>
+    <string name="action_requests">Requests</string>
     <string name="button_editor_response_info">Incident</string>
     <string name="button_editor_arrival_info">Found</string>
     <string name="button_editor_request_info">Requests</string>
@@ -14,6 +15,10 @@
 
     <string name="title_activity_editor_new">New Incident</string>
     <string name="title_activity_editor_edit">Edit Incident</string>
+
+    <string name="title_activity_request_editor_new">New request</string>
+    <string name="title_activity_request_editor_edit">Edit request</string>
+
 
     <string name="login_tv_unit_unit_spinner">Select your unit</string>
 
