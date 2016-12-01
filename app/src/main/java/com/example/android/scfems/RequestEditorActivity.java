@@ -40,7 +40,7 @@ public class RequestEditorActivity extends AppCompatActivity implements LoaderMa
     /* Identifier for loader */
     private static final int REQUEST_LOADER = 1;
 
-    private Uri mCurrentIncidentUri;
+    private Uri mCurrentRequestUri;
 
     private String mUnitID;
 
@@ -60,16 +60,25 @@ public class RequestEditorActivity extends AppCompatActivity implements LoaderMa
 
     //Variable checks to see if incident has been updated
     private boolean mIncidentsChanged = false;
+    /*
+     * Assumes when user touches screen something has changed
+     */
+    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            mIncidentsChanged = true;
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request);
 
-
+        getIntentFromRequestMenu();
         getMenuOnCreate();
-//        setMethodUiVariables();
-
+        setMethodUiVariables();
 
 //        setUpSpinnerIncidentType();
 
@@ -153,7 +162,7 @@ public class RequestEditorActivity extends AppCompatActivity implements LoaderMa
          * then check to make sure the text fields are not blank. If so, exit
          * and do not bother adding new incident.
          */
-        if (mCurrentIncidentUri == null &&
+        if (mCurrentRequestUri == null &&
                 TextUtils.isEmpty(incidentNumberString) &&
                 TextUtils.isEmpty(dateString) &&
                 TextUtils.isEmpty(timeString) &&
@@ -169,7 +178,7 @@ public class RequestEditorActivity extends AppCompatActivity implements LoaderMa
 
 
         //Check to see if we insert new incident or are editing a current one
-        if (mCurrentIncidentUri == null) {
+        if (mCurrentRequestUri == null) {
             Uri newUri = getContentResolver().insert(RequestsEntry.CONTENT_URI, contentValues);
 
             //check to see if insert worked. If not, newUri will return null
@@ -182,7 +191,7 @@ public class RequestEditorActivity extends AppCompatActivity implements LoaderMa
             /*
              * Incident already exists. Instead of insert use the update method
              */
-            int rowToUpdate = getContentResolver().update(mCurrentIncidentUri,
+            int rowToUpdate = getContentResolver().update(mCurrentRequestUri,
                     contentValues, null, null);
 
             /*
@@ -237,6 +246,7 @@ public class RequestEditorActivity extends AppCompatActivity implements LoaderMa
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
     /*
      * Need to update the back button functionality to account for the
      * change listener to monitor if the data has been updated.  If it has, it should
@@ -266,13 +276,13 @@ public class RequestEditorActivity extends AppCompatActivity implements LoaderMa
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String [] projection = {
-            DataContract.RequestsEntry._ID,
-            DataContract.RequestsEntry.COLUMN_INCIDENT_NUMBER,
+                RequestsEntry._ID,
+                RequestsEntry.COLUMN_INCIDENT_NUMBER,
 
         };
 
         return new CursorLoader(this,
-                mCurrentIncidentUri,
+                mCurrentRequestUri,
                 projection,
                 null,
                 null,
@@ -310,18 +320,6 @@ public class RequestEditorActivity extends AppCompatActivity implements LoaderMa
         mIncidentNumber.setText("");
     }
 
-
-    /*
-     * Assumes when user touches screen something has changed
-     */
-    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            mIncidentsChanged = true;
-            return false;
-        }
-    };
-
     public void checkIfEmpty(){
         //TODO
     }
@@ -331,21 +329,21 @@ public class RequestEditorActivity extends AppCompatActivity implements LoaderMa
         setSupportActionBar(toolbar);
     }
 
-    private void getIntentFromFoundMenu(){
+    private void getIntentFromRequestMenu() {
         /*
          *getIntent from the MainActivity and check to see if we
          * need to open a new incident or update a current one
          */
         Intent intent = getIntent();
-        mCurrentIncidentUri = intent.getData();
+        mCurrentRequestUri = intent.getData();
        // mUnitID = intent.getStringExtra(DataContract.RequestsEntry.COLUMN_UNIT_ID);
 
         //Empty id on uri results in new incident
-        if(mCurrentIncidentUri == null){
+        if (mCurrentRequestUri == null) {
             setTitle(getString(R.string.title_activity_request_editor_new));
 
         }else {
-            mIntentUri = mCurrentIncidentUri.toString();
+            mIntentUri = mCurrentRequestUri.toString();
             setTitle(getString(R.string.title_activity_request_editor_edit));
 
             //initialize loader to read data to load from database

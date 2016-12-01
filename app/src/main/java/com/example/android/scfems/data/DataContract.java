@@ -15,13 +15,6 @@ import java.net.URL;
  */
 public final class DataContract {
     public static final String TAG = DataContract.class.getSimpleName();
-
-    /*
-     * making constructor private prevents someone from accidentally
-     * instantiating the contract class
-     */
-    private DataContract(){}
-
     /*
      * Data url to parse
      */
@@ -30,8 +23,6 @@ public final class DataContract {
     public static final String UNIT_URL = "http://192.168.1.250/read_allUnit.php";
     public static final String RESOURCE_URL = "http://192.168.1.250/read_allResources.php";
     public static final String REQ_RESOURCE_URL = "http://192.168.1.250/read_allResRequests.php";
-
-
     public static final String INCIDENT_TYPE_REQUEST = "_incTypeRequest";
     /*
     * Unique integers assigned for each UriMatch
@@ -48,16 +39,12 @@ public final class DataContract {
     public static final int URI_UNIT_ID = 141;
     public static final int URI_USERS = 150;
     public static final int URI_USER_ID = 151;
-
     public static final String TABLE_NAME = "unit";
-
     public static final String _ID = BaseColumns._ID;
     public static final String COLUMN_UNIT_ID = "unitID";
     public static final String COLUMN_UNIT_DESC = "unitDesc";
-
     /* Uri string to pass from one intent to another */
     public static final String URI_INTENT_STRING = "setUriString";
-
     /*
      * CONTENT_AUTHORITY represents the entire name for the content provider
      * It is found in the AndroidManifest.xml and necessary for the app to
@@ -66,13 +53,11 @@ public final class DataContract {
      * provider name: .data.DataProvider
      */
     public static final String CONTENT_AUTHORITY = "com.example.android.scfems";
-
     /*
      * BASE_CONTEENT_URI is derived from parsing the URI of the
      * "content://" string with the CONTENT_AUTHORITY.
      */
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-
     /*
      * Each table must identify a unique PATH outside of their respective
      * class.  This will be used with the BASE_CONTENT URI to uniquely
@@ -84,13 +69,19 @@ public final class DataContract {
     public static final String PATH_RESOURCES = "resources";
     public static final String PATH_UNIT = "unit";
     public static final String PATH_USER = "user";
-
     /*
      * Global static error messages
      */
     public static final String ERR_ILLEGAL_ARG_QUERY = "Cannot query unknown URI ";
     public static final String ERR_ILLEGAL_ARG_INSERT = "Insertion is not supported for ";
     public static final String ERR_ILLEGAL_ARG_INTENT = " Error passing null Uri value through Intent";
+
+    /*
+     * making constructor private prevents someone from accidentally
+     * instantiating the contract class
+     */
+    private DataContract() {
+    }
 
     // Inner class for incidents table
     public static final class IncidentEntry implements BaseColumns {
@@ -100,7 +91,7 @@ public final class DataContract {
          * Each table will have its own unique CONTENT_URI configured
          */
         public static final Uri CONTENT_URI =
-            BASE_CONTENT_URI.withAppendedPath(BASE_CONTENT_URI,PATH_INCIDENTS);
+                Uri.withAppendedPath(BASE_CONTENT_URI, PATH_INCIDENTS);
 
         public static final String CONTENT_LIST_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
@@ -127,6 +118,7 @@ public final class DataContract {
         public static final String COLUMN_RECEIVED_INC_TYPE = "incidentReceived";
         public static final String COLUMN_FOUND_INC_TYPE = "incidentFound";
         public static final String COLUMN_NOTES = "notes";
+        public static final String COLUMN_USER = "user";
         public static final String COLUMN_STATUS = "incidentStatus";
 
         //Constant values

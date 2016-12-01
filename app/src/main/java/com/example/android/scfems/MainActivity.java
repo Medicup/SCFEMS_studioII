@@ -26,11 +26,10 @@ import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
-
-    String mUnitType = "";
     //Integer loader constant for Loader
     private static final int USAR_LOADER = 0;
-
+    String mUnitType = "";
+    String mUser = "";
     //adapter object for listView
     UsarCursorAdapter mCursorAdapter;
 
@@ -41,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         Intent getIntentFromLogin = getIntent();
         mUnitType = getIntentFromLogin.getStringExtra(IncidentEntry.COLUMN_UNIT_ID);
+        mUser = getIntentFromLogin.getStringExtra(IncidentEntry.COLUMN_USER);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id){
                 //Open new EditorActivity
-                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                Intent intentToEditor = new Intent(MainActivity.this, EditorActivity.class);
 
                 /*
                  * Append the id for the specific incident clicked from the listView to
@@ -87,10 +87,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 Uri currentIncidentUri = ContentUris.withAppendedId(IncidentEntry.CONTENT_URI, id);
 
                 //Set the intent with the uri from the specific row clicked
-                intent.setData(currentIncidentUri);
-                intent.putExtra(IncidentEntry.COLUMN_UNIT_ID, mUnitType);
+                String currentUriString = currentIncidentUri.toString();
+                //intentToEditor.setData(currentIncidentUri);
+                intentToEditor.putExtra("intentURI", currentUriString);
+                intentToEditor.putExtra(IncidentEntry.COLUMN_UNIT_ID, mUnitType);
 
-                startActivity(intent);
+                startActivity(intentToEditor);
             }
         });
 
@@ -157,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         contentValues.put(IncidentEntry.COLUMN_STREET_NAME, "Stoneham Dr");
         contentValues.put(IncidentEntry.COLUMN_CITY, "Groveland");
         contentValues.put(IncidentEntry.COLUMN_STATE,"FL");
+        contentValues.put(IncidentEntry.COLUMN_USER, mUser);
 
         Uri newUri = getContentResolver().insert(IncidentEntry.CONTENT_URI, contentValues);
     }

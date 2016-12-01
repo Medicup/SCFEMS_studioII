@@ -53,8 +53,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 IncidentEntry.COLUMN_DATE + TEXT + COMMA +
                 IncidentEntry.COLUMN_TIME + TEXT + COMMA +
                 IncidentEntry.COLUMN_UNIT_ID + TEXT + COMMA +
-                IncidentEntry.COLUMN_GPS_LONG + DOUBLE + COMMA +
-                IncidentEntry.COLUMN_GPS_LAT + DOUBLE + COMMA +
+                IncidentEntry.COLUMN_GPS_LONG + TEXT + COMMA +
+                IncidentEntry.COLUMN_GPS_LAT + TEXT + COMMA +
                 IncidentEntry.COLUMN_STREET_NUMBER + INTEGER + COMMA +
                 IncidentEntry.COLUMN_STREET_NAME + TEXT + COMMA +
                 IncidentEntry.COLUMN_CITY + TEXT + COMMA +
@@ -62,6 +62,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 IncidentEntry.COLUMN_RECEIVED_INC_TYPE + TEXT + COMMA +
                 IncidentEntry.COLUMN_FOUND_INC_TYPE + TEXT + COMMA +
                 IncidentEntry.COLUMN_NOTES + TEXT + COMMA +
+                IncidentEntry.COLUMN_USER + TEXT + COMMA +
                 IncidentEntry.COLUMN_STATUS + INTEGER + DEFAULT + IncidentEntry.STATUS_OPEN + " );";
 
         String SQL_CREATE_INC_TYPE_TABLE = "CREATE TABLE IF NOT EXISTS " +
